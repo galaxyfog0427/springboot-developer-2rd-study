@@ -1,6 +1,7 @@
 package me.parkjeounghyun.springbootdeveloper.service;
 
 import lombok.RequiredArgsConstructor;
+import me.parkjeounghyun.springbootdeveloper.config.error.exception.UserNotFoundException;
 import me.parkjeounghyun.springbootdeveloper.domain.User;
 import me.parkjeounghyun.springbootdeveloper.dto.AddUserRequest;
 import me.parkjeounghyun.springbootdeveloper.repository.UserRepository;
@@ -34,11 +35,11 @@ public class UserService {
 
     public User findById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+                .orElseThrow(UserNotFoundException::new);
     }
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+                .orElseThrow(UserNotFoundException::new);
     }
 }
