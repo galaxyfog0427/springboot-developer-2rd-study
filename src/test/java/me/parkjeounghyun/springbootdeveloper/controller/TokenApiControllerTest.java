@@ -81,17 +81,12 @@ class TokenApiControllerTest {
         // given
         final String url = "/api/token";
 
-        User testUser = userRepository.save(User.builder()
-                .email("user@gmail.com")
-                .password("test")
-                .build());
-
         String refreshToken = JwtFactory.builder()
-                .claims(Map.of("id", testUser.getId()))
+                .claims(Map.of("id", user.getId()))
                 .build()
                 .createToken(jwtProperties);
 
-        refreshTokenRepository.save(new RefreshToken(testUser.getId(), refreshToken));
+        refreshTokenRepository.save(new RefreshToken(user.getId(), refreshToken));
 
         CreateAccessTokenRequest request = new CreateAccessTokenRequest();
         request.setRefreshToken(refreshToken);
