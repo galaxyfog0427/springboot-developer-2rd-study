@@ -32,6 +32,9 @@ dependencies {
     // XML 문서와 Java 객체 간 매핑 자동화
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
+    // 값 검증
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     runtimeOnly 'com.h2database:h2' // 인메모리 데이터베이스
     compileOnly 'org.projectlombok:lombok' // 롬복
     annotationProcessor 'org.projectlombok:lombok'
@@ -42,6 +45,9 @@ dependencies {
     // 스프링 시큐리티를 테스트하기 위한 의존성 추가
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.projectlombok:lombok'
+
+    // 편리하게 가짜 데이터 생성하는 오픈소스 라이브러리
+    testImplementation 'net.datafaker:datafaker:2.0.2'
 }
 
 
