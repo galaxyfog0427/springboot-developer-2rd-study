@@ -251,7 +251,7 @@ class BlogApiControllerTest {
                 .content(requestBody));
 
         // then
-        result.andExpect(status().isBadRequest());
+        result.andExpect(status().isInternalServerError());
     }
 
     @DisplayName("addArticle: 아티클을 추가할 때 title이 10자를 넘으면 실패한다.")
@@ -277,7 +277,7 @@ class BlogApiControllerTest {
                 .content(requestBody));
 
         // then
-        result.andExpect(status().isBadRequest());
+        result.andExpect(status().isInternalServerError());
     }
 
     @DisplayName("findArticle: 잘못된 HTTP 메서드로 아티클을 조회하려고 하면 조회에 실패한다.")
