@@ -17,7 +17,7 @@ public class ArticleViewResponse {
     private String content;
     private LocalDateTime createdAt;
     private String author;
-    private List<Comment> comments
+    private List<Comment> comments;
 
     public ArticleViewResponse(Article article) {
         this.id = article.getId();
