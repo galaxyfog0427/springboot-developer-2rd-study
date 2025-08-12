@@ -17,7 +17,6 @@ public enum ErrorCode {
     TOKEN_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "UA1", "유효하지 않은 토큰입니다."),
     USER_UNAUTHORIZED(HttpStatus.FORBIDDEN, "UA2", "해당 리소스에 접근할 수 없습니다.");
 
-
     private final HttpStatus status;
     private final String code;
     private final String message;
