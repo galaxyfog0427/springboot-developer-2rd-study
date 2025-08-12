@@ -1,6 +1,7 @@
 package me.parkjeounghyun.springbootdeveloper.service;
 
 import lombok.RequiredArgsConstructor;
+import me.parkjeounghyun.springbootdeveloper.config.error.exception.TokenUnauthorizedException;
 import me.parkjeounghyun.springbootdeveloper.config.jwt.TokenProvider;
 import me.parkjeounghyun.springbootdeveloper.domain.User;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class TokenService {
     public String createNewAccessToken(String refreshToken) {
         // 토큰 유효성 검사에 실패하면 예외 발생
         if (!tokenProvider.validToken(refreshToken)) {
-            throw new IllegalArgumentException("Unexpected token");
+            throw new TokenUnauthorizedException();
         }
 
         Long userId = refreshTokenService.findByRefreshToken(refreshToken).getUserId();
