@@ -3,6 +3,7 @@ package me.parkjeounghyun.springbootdeveloper.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.parkjeounghyun.springbootdeveloper.config.error.exception.ArticleNotFoundException;
+import me.parkjeounghyun.springbootdeveloper.config.error.exception.UserUnauthorizedException;
 import me.parkjeounghyun.springbootdeveloper.domain.Article;
 import me.parkjeounghyun.springbootdeveloper.dto.AddArticleRequest;
 import me.parkjeounghyun.springbootdeveloper.dto.UpdateArticleRequest;
@@ -57,7 +58,7 @@ public class BlogService {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 
         if (!article.getAuthor().equals(userName)) {
-            throw new IllegalArgumentException("not authorized");
+            throw new UserUnauthorizedException();
         }
     }
 }
