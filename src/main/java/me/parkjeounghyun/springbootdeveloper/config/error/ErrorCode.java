@@ -9,10 +9,12 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "E2", "잘못된 HTTP 메서드를 호출했습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E3", "서버 에러가 발생했습니다."),
     NOT_FOUND(HttpStatus.NOT_FOUND, "E4", "존재하지 않는 엔티티입니다."),
+    NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, "E5", "인증이 필요합니다."),
 
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "A1", "존재하지 않는 아티클입니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U1", "존재하지 않는 유저입니다."),
 
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U1", "존재하지 않는 유저입니다.");
+    TOKEN_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "T1", "유효하지 않은 토큰입니다.");
 
     private final HttpStatus status;
     private final String code;
