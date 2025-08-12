@@ -90,8 +90,6 @@ if (logoutButton) {
     });
 }
 
-
-
 // 쿠키를 가져오는 함수
 function getCookie(key) {
     var result = null;
@@ -114,7 +112,6 @@ function getCookie(key) {
 function deleteCookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
-
 
 // HTTP 요청을 보내는 함수
 function httpRequest(method, url, body, success, fail) {
@@ -154,5 +151,31 @@ function httpRequest(method, url, body, success, fail) {
         } else {
             return fail();
         }
+    });
+}
+
+// 댓글 생성 기능
+const commentCreateButton = document.getElementById('comment-create-btn');
+
+if (commentCreateButton) {
+    commentCreateButton.addEventListener('click', event => {
+        articleId = document.getElementById('article-id').value;
+
+        body = JSON.stringify({
+            articleId: articleId,
+            content: document.getElementById('content').value
+        });
+
+        function success() {
+            alert('등록 완료되었습니다.');
+            location.replace('/articles/' + articleId);
+        };
+
+        function fail() {
+            alert('등록 실패했습니다.');
+            location.replace('/articles/' + articleId);
+        };
+
+        httpRequest('POST', '/api/comments', body, success, fail)
     });
 }

@@ -2,9 +2,8 @@ package me.parkjeounghyun.springbootdeveloper.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.parkjeounghyun.springbootdeveloper.domain.Article;
-import me.parkjeounghyun.springbootdeveloper.dto.AddArticleRequest;
-import me.parkjeounghyun.springbootdeveloper.dto.ArticleResponse;
-import me.parkjeounghyun.springbootdeveloper.dto.UpdateArticleRequest;
+import me.parkjeounghyun.springbootdeveloper.domain.Comment;
+import me.parkjeounghyun.springbootdeveloper.dto.*;
 import me.parkjeounghyun.springbootdeveloper.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +65,13 @@ public class BlogApiController {
 
         return ResponseEntity.ok()
                 .body(updatedArticle);
+    }
+
+    @PostMapping("/api/comments")
+    public ResponseEntity<AddCommentResponse> addComment(@RequestBody AddCommentRequest request, Principal principal) {
+        Comment savedComment = blogService.addComment(request, principal.getName());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new AddCommentResponse(savedComment));
     }
 }
 

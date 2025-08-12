@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.jshell.spi.ExecutionControlProvider;
 import me.parkjeounghyun.springbootdeveloper.config.error.ErrorCode;
 import me.parkjeounghyun.springbootdeveloper.domain.Article;
+import me.parkjeounghyun.springbootdeveloper.domain.Comment;
 import me.parkjeounghyun.springbootdeveloper.domain.User;
 import me.parkjeounghyun.springbootdeveloper.dto.AddArticleRequest;
+import me.parkjeounghyun.springbootdeveloper.dto.AddCommentRequest;
 import me.parkjeounghyun.springbootdeveloper.dto.UpdateArticleRequest;
 import me.parkjeounghyun.springbootdeveloper.repository.BlogRepository;
+import me.parkjeounghyun.springbootdeveloper.repository.CommentRepository;
 import me.parkjeounghyun.springbootdeveloper.repository.UserRepository;
 import net.datafaker.Faker;
 import org.aspectj.lang.annotation.Before;
@@ -60,6 +63,9 @@ class BlogApiControllerTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CommentRepository commentRepository;
+
     User user;
 
     @BeforeEach // 테스트 실행 전 실행하는 메서드
@@ -67,6 +73,7 @@ class BlogApiControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .build();
         blogRepository.deleteAll();
+        commentRepository.deleteAll();
     }
 
     @BeforeEach
@@ -79,6 +86,37 @@ class BlogApiControllerTest {
 
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
+    }
+
+    @DisplayName("addComment: 댓글 추가에 성공한다.")
+    @Test
+    public void addComment() throws Exception {
+        // given
+        final String url = "/api/comments";
+
+        final Article savedArticle = createDefaultArticle();
+        final Long articleId = savedArticle.getId();
+        final String content = "content";
+        final AddCommentRequest request = new AddCommentRequest(articleId, content);
+        final String requestBody = objectMapper.writeValueAsString(request);
+
+        Principal principal = Mockito.mock(Principal.class);
+        Mockito.when(principal.getName()).thenReturn("username");
+
+        // when
+        ResultActions result = mockMvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .principal(principal)
+                .content(requestBody));
+
+        // then
+        result.andExpect(status().isCreated());
+
+        List<Comment> comments = commentRepository.findAll();
+
+        assertThat(comments.size()).isOne();
+        assertThat(comments.get(0).getArticle().getId()).isEqualTo(articleId);
+        assertThat(comments.get(0).getContent()).isEqualTo(content);
     }
 
     @DisplayName("addArticle: 블로그 글 추가에 성공한다.")

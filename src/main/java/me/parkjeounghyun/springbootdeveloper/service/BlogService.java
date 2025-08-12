@@ -5,9 +5,12 @@ import lombok.RequiredArgsConstructor;
 import me.parkjeounghyun.springbootdeveloper.config.error.exception.ArticleNotFoundException;
 import me.parkjeounghyun.springbootdeveloper.config.error.exception.UserUnauthorizedException;
 import me.parkjeounghyun.springbootdeveloper.domain.Article;
+import me.parkjeounghyun.springbootdeveloper.domain.Comment;
 import me.parkjeounghyun.springbootdeveloper.dto.AddArticleRequest;
+import me.parkjeounghyun.springbootdeveloper.dto.AddCommentRequest;
 import me.parkjeounghyun.springbootdeveloper.dto.UpdateArticleRequest;
 import me.parkjeounghyun.springbootdeveloper.repository.BlogRepository;
+import me.parkjeounghyun.springbootdeveloper.repository.CommentRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class BlogService {
 
     private final BlogRepository blogRepository;
+    private final CommentRepository commentRepository;
 
     // 블로그 글 추가 메서드
     public Article save(AddArticleRequest request, String userName) {
@@ -51,6 +55,13 @@ public class BlogService {
         article.update(request.getTitle(), request.getContent());
 
         return article;
+    }
+
+    public Comment addComment(AddCommentRequest request, String userName) {
+        Article article = blogRepository.findById(request.getArticleId())
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + request.getArticleId()));
+
+        return commentRepository.save(request.toEntity(userName, article));
     }
 
     // 게시글을 작성한 유저인지 확인
