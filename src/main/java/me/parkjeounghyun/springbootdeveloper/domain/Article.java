@@ -21,7 +21,7 @@ public class Article {
 
     @Id // id 필드를 기본키로 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키를 자동으로 1씩 증가
-    @Column(name = "id", updatable = false)
+    @Column(name = "article_id", updatable = false)
     private Long id;
 
     @Column(name = "title", nullable = false) // 'title' 이라는 not null 컬럼과 매핑
