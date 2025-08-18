@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Table(name = "articles")
 @EntityListeners(AuditingEntityListener.class)
 @Entity // 엔티티로 지정
 @Getter
